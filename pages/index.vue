@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div>
-      {{ post }}
-    </div>
+    <div v-for="post in posts" :key="post.slug">
+      <h1>{{ post.title }}</h1>
+        <nuxt-content :document="post" />
   </div>
 </template>
 
@@ -18,14 +18,14 @@ export default {
   async asyncData({ $content, params, error }) {
     let post;
     try {
-      post = await $content("blog", params.slug).fetch();
+      posts = await $content("blog", params.slug).fetch();
       // OR const article = await $content(`articles/${params.slug}`).fetch()
     } catch (e) {
       error({ message: "Blog Post not found" });
     }
 
     return {
-      post,
+      posts,
     };
   },
 };

@@ -1,26 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">netlify-cms-hello</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      {{ post }}
     </div>
   </div>
 </template>
@@ -32,6 +13,19 @@ export default {
       script: [
         { src: "https://identity.netlify.com/v1/netlify-identity-widget.js" },
       ],
+    };
+  },
+  async asyncData({ $content, params, error }) {
+    let post;
+    try {
+      post = await $content("blog", params.slug).fetch();
+      // OR const article = await $content(`articles/${params.slug}`).fetch()
+    } catch (e) {
+      error({ message: "Blog Post not found" });
+    }
+
+    return {
+      post,
     };
   },
 };

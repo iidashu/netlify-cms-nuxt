@@ -1,8 +1,12 @@
 <template>
   <div class="container">
     <div v-for="post in posts" :key="post.slug">
-      <h1>{{ post.title }}</h1>
+      <div class="post">
+        <h1>{{ post.title }}</h1>
         <nuxt-content :document="post" />
+      </div>
+      <hr />
+    </div>
   </div>
 </template>
 
@@ -16,7 +20,7 @@ export default {
     };
   },
   async asyncData({ $content, params, error }) {
-    let post;
+    let posts;
     try {
       posts = await $content("blog", params.slug).fetch();
       // OR const article = await $content(`articles/${params.slug}`).fetch()
@@ -34,14 +38,15 @@ export default {
 <style>
 .container {
   margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
+  padding: 80px;
+  /* min-height: 100vh; */
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: center; */
 }
 
-.title {
+/* .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
@@ -61,5 +66,13 @@ export default {
 
 .links {
   padding-top: 15px;
+} */
+
+.post {
+  text-align: left;
+}
+
+hr {
+  margin: 80px 0;
 }
 </style>
